@@ -7,11 +7,10 @@ var axios = require("axios");
 var parser = require("xml2json");
 var convert = require("xml-js");
 const request = require('request');
-const token = "D7BFCB2A51534BB6B38E305B14C73A23";
-const pagbase = "https://ws.sandbox.pagseguro.uol.com.br";
+const token = "1253d414-77aa-4bde-925d-35d615a96a8aa0f0c1c24c56a6825095b22e4aad637d4ab0-e042-4f8e-95a5-33b4cfde3348";
+const pagbase = "https://ws.pagseguro.uol.com.br";
 const email = "vinassis@gmail.com";
-const urlPagSeguroDirectPayment = "https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js";
-const urlTransacao = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/';
+
  
 exports.post = async (req, res) => {
     axios.default
@@ -50,7 +49,7 @@ exports.pagamento = ( (req, res) => {
     res.status(400).send({ mensagem: "Ausência de parâmetros" });
   }
   var options = { compact: true, ignoreComment: true, spaces: 4 };
-
+  console.log(convert.json2xml(data, options))
   axios.default
     .post(
       `${pagbase}/v2/transactions?email=${email}&token=${token}`,
@@ -62,7 +61,7 @@ exports.pagamento = ( (req, res) => {
       }     
     )
     .then(pagresponse => {
-    console.log(`resposta, ${pagresponse.data}`)
+      console.log(pagresponse)
       if (pagresponse.status === 200) {
         res.status(200).send({ mensagem: "Pagamento realizado" });
       } else {
